@@ -252,7 +252,7 @@ class MeasuresController < ApplicationController
   def update_population_criteria
     @measure = Measure.find(params[:id])
     @measure.create_hqmf_preconditions(params['data'])
-    @measure.save!
+    #@measure.save!
     render :json => {
       'population_criteria' => {{
         "IPP" => "population",

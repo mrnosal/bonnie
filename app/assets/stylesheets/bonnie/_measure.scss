@@ -120,13 +120,18 @@
   .paramGroupToggle {
     margin: 0 0 0 20px;
   }
+  .display_name+.paramItem {
+    padding-top:5px;
+    @include border-radius(0 0 $radius $radius);
+    @include box-shadow(inset 0 5px 8px -4px rgba(0,0,0,0.3));
+  }
   .paramItem {
     background-color: white;
     border-radius: $radius;
     -moz-border-radius: $radius;
     -webkit-border-radius: $radius;
     padding: 1px 4px 0;
-    display: table;
+    display: inline-block;
     margin-left: 10px;
     color: black;
     text-transform: lowercase;
@@ -190,21 +195,27 @@
       font-style: italic; }
   }
   .display_name {
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-    border-radius: 20px;
-    padding: 2px 15px;
+    @include border-radius($radius $radius 0 0);
+    background-color:white;
+    margin-left:10px;
+    padding: 5px 6px 5px 12px;
+    border-bottom:1px solid red;
+    font-size:20px;
+    cursor:pointer;
+    
 
     &:after {
       content: '';
       float: right;
       width: 12px;
       height: 12px;
-      margin: 3px 0 0 0;
+      margin: 3px 0 0 10px;
       background-image: url(/assets/vertical_expand_collapse.png);
       background-repeat: no-repeat;
     }
-
+    &.collapsed {
+      @include border-radius($radius);
+    }
     &.collapsed:after {
       background-position: 0 -12px;
     }
@@ -216,19 +227,22 @@
     background-color: #d1ecef;
     border-color:#a4d9dd;
   }
-  .paramGroup, .display_name {
+  .paramGroup {
     background-color: $eligibilityParamGroup;
-    .paramGroup, .display_name {
+    .paramGroup {
       margin-left: 10px;
       background-color: darken($eligibilityParamGroup,8);
       width: auto;
-      .paramGroup, .display_name {
+      .paramGroup {
         margin-left: 10px;
         background-color: darken($eligibilityParamGroup,20);
-        .paramGroup, .display_name {
+        .paramGroup {
           background-color: darken($eligibilityParamGroup,35);
         }
       }
+    }
+    .display_name {
+      border-color:$eligibilityParamGroup;
     }
   }
   span.temporal-operator {
@@ -282,16 +296,19 @@
     background-color: #e6f2d1;
     border-color:#9cc45e;
   }
-  .paramGroup, .display_name {
+  .paramGroup {
     background-color: $outcomeParamGroup;
     .and {
       background-color: $outcomeParamGroup; }
-    .paramGroup, .display_name {
+    .paramGroup {
       background-color: #9db26d;
       width: auto;
-      .paramGroup, .display_name {
+      .paramGroup {
         background-color: #6c8631;
       }
+    }
+    .display_name {
+      border-color:$outcomeParamGroup;
     }
   }
   span.temporal-operator {
@@ -325,18 +342,21 @@
 }
 
 #initialPopulation, #patient_data_criteria {
-  .paramGroup, .display_name {
+  .paramGroup {
     background-color: $initialPopulationParamGroup;
-    .paramGroup, .display_name {
+    .paramGroup {
       margin-left: 10px;
       background-color: darken($initialPopulationParamGroup,7);
       width: auto;
-      .paramGroup, .display_name {
+      .paramGroup {
         margin-left: 10px;
         background-color: darken($initialPopulationParamGroup,15);
-        .paramGroup, .display_name {
+        .paramGroup {
           background-color: darken($initialPopulationParamGroup,25);
         }
+      }
+      .display_name {
+        border-color:$initialPopulationParamGroup;
       }
     }
     .and {
@@ -367,16 +387,19 @@
 }
 
 #exclusionMeasures {
-  .paramGroup, .display_name {
+  .paramGroup {
     background-color: $exclusionsGroup;
-    .paramGroup, .display_name {
+    .paramGroup {
       background-color: darken($exclusionsGroup,5);
-      .paramGroup, .display_name {
+      .paramGroup {
         background-color: darken($exclusionsGroup,10);
-        .paramGroup, .display_name {
+        .paramGroup {
           background-color: darken($exclusionsGroup,15);
         }
       }
+    }
+    .display_name {
+      border-color:$exclusionsGroup;
     }
     .and {
       background-color: $exclusionsGroup;
@@ -420,13 +443,16 @@ label.ui-draggable-dragging {display:block;width:212px;}
 div.start-drag {color:red !important;background-color:red !important;opacity:0.5}
 
 #exceptionMeasures {
-  .paramGroup, .display_name {
+  .paramGroup {
     background-color: #dcdcdc;
-    .paramGroup, .display_name {
+    .paramGroup {
       background-color: #dcdcdc;
-      .paramGroup, .display_name {
+      .paramGroup {
         background-color: #dcdcdc;
       }
+    }
+    .display_name {
+      border-color:#dcdcdc;
     }
     .and {
       background-color: #dddddd;
@@ -675,8 +701,9 @@ div.start-drag {color:red !important;background-color:red !important;opacity:0.5
   }
 
   .subset_operator, .criteria_value {
-    label, input {
-      display: inline;
+    label {
+      padding-bottom:6px;
+      line-height:21px;
     }
   }
 }

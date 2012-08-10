@@ -53,7 +53,7 @@ class @bonnie.Builder
       if data_criteria = @dataCriteria($(element).data('criteria-id'))
         bonnie.template('data_criteria_edit', $.extend({}, data_criteria, {precondition_id: $(element).data('precondition-id')})).appendTo('#workspace')
       else if $(element).data('precondition-id')
-        bonnie.template('precondition_edit', {id: $(element).data('precondition-id'), precondition_id: $(element).data('precondition-id')}).appendTo('#workspace')
+        bonnie.template('precondition_edit', {id: $(element).data('precondition-id'), precondition_id: $(element).data('precondition-id'), query: $(element).data('query-struct')}).appendTo('#workspace')
 
 
     offset = leaf.offset().top + leaf.height()/2 - $('#workspace').offset().top - element.height()/2
@@ -499,8 +499,11 @@ class @bonnie.Builder
           parent_obj = obj
         elemParent = bonnie.template('param_group', obj).appendTo(elemParent).find(".paramItem:last").data('logic-id', obj)
         $(elemParent).parent().find('.display_name').click((e)->
-          $(this).toggleClass('collapsed')
-          $(this).siblings().slideToggle()
+          console.log("width",$(this).siblings('.paramItem:first').width())
+          if (!$(this).hasClass('collapsed'))
+            $(this).width($(this).siblings('.paramItem:first').width()-10);
+          $(this).toggleClass('collapsed');
+          $(this).siblings(".paramItem:first").slideToggle("slow");
           e.stopPropagation()
         )
         elemParent.droppable(
@@ -612,10 +615,13 @@ class @bonnie.Builder
         )
 
       $(elemParent).parent().find('.display_name').click((e)->
+        console.log("width",$(this).siblings('.paramItem:first').width())
+        if (!$(this).hasClass('collapsed'))
+          $(this).width($(this).siblings('.paramItem:first').width()-10)
         $(this).toggleClass('collapsed')
-        $(this).siblings().slideToggle();
+        $(this).siblings(".paramItem:first").slideToggle("slow")
         e.stopPropagation()
-      );
+      )
 
 
 

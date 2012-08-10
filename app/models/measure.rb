@@ -155,7 +155,7 @@ class Measure
     self.preconditions ||= {}
     self.preconditions[id] = name
   end
-
+      
   private
 
   def as_publishing

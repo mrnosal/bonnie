@@ -1,0 +1,29 @@
+#workspace {
+.edit-dialog-popup {
+  position: relative;
+  @include border-radius(12px);
+  padding:10px;
+  border:1px solid #aaa;
+  background-color:white;
+  .close_edit {
+    color:$linkColor;
+    margin:0;
+    padding:0;
+    float:right;
+    text-align:right;
+  }
+  .form-horizontal {
+    .control-group {
+      margin-bottom:10px;
+      &>label { 
+        width:100px;
+        text-align:left;
+        color:$gray;
+      }
+    }
+    .controls {
+      margin-left:110px;
+    }
+}
+}
+}

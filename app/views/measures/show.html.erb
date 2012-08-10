@@ -262,13 +262,13 @@
 
   <script type="text/html" id="bonnie_tmpl_param_group">
     <div class='paramGroup'>
-      <div class='paramItem{{if id}} logicLeaf{{/if}}'{{if id}} data-criteria-id="${id}"{{/if}}{{if precondition_id}} data-precondition-id="${precondition_id}"{{/if}}{{if myid}} data-myid="${myid}"{{/if}}>
         {{if id}}
           {{if bonnie.builder.data_criteria[id].display_name}}<div class="display_name">${bonnie.builder.data_criteria[id].display_name}</div>{{/if}}
         {{else precondition_id}}
           {{if bonnie.builder.preconditions[precondition_id]}}<div class="display_name">${bonnie.builder.preconditions[precondition_id]}</div>{{/if}}
         {{/if}}
-        {{if conjunction}}<span class='conjunction ${conjunction}'>${conjunction}</span>{{/if}}
+        <div class='paramItem{{if id}} logicLeaf{{/if}}'{{if id}} data-criteria-id="${id}"{{/if}}{{if precondition_id}} data-precondition-id="${precondition_id}"{{/if}}{{if myid}} data-myid="${myid}"{{/if}}>
+          {{if conjunction}}<span class='conjunction ${conjunction}'>${conjunction}</span>{{/if}}
       </div>
     </div>
   </script>
@@ -511,34 +511,39 @@
    </script>
 
    <script type="text/html" id="bonnie_tmpl_precondition_edit">
-    <div style="position: relative; border-radius:12px;padding:10px; border:1px solid #aaa;background-color:#CCC;">
-      <span class="close_edit" style="position:absolute; top: 0; right: 0;">close</span>
+    <div class="edit-dialog-popup">
+      <span class="close_edit">close</span>
       <div style="width: 0px; height: 0px;"><!-- This is crap. --><div class="arrow-w" style="position: relative; top: 45px; left: -86px;"></div></div>
-      <%= form_tag({:action => 'name_precondition'}, {:onsubmit => "!$(this).ajaxSubmit({success:bonnie.builder.showSaved.curry(this)}); return false"}) do %>
+      <%= form_tag({:action => 'name_precondition'}, {:class=> 'form-horizontal', :onsubmit => "!$(this).ajaxSubmit({success:bonnie.builder.showSaved.curry(this)}); return false"}) do %>
         <input type="hidden" name="id" value="<%= params[:id] %>" />
         <input type="hidden" name="precondition_id" value="${id}">
         <h4>Precondition ${id}</h4>
-        <table>
-          <tr>
-            <td>Name</td>
-            <td><input name="name" value="${bonnie.builder.preconditions[id]}" /></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              {{if typeof precondition_id != 'undefined'}}<input type="button" class="delete_criteria" value="Delete">{{/if}}
-              <input type="submit" value="save">
-              <span class="edit_save_message"></span>
-            </td>
-          </tr>
-          </tr>
-        </table>
+        <fieldset>
+        <div class="control-group">
+          <label class="control-label">Name</label>
+          <div class="controls">
+            <input type="text" name="name" value="${bonnie.builder.preconditions[id]}" />
+          </div>
+        </div>  
+        <div class="control-group">
+          <label class="control-label">Logical Operator</label>
+          <div class="controls">
+            <select class="input input-mini" name="conjunction"><option ${query.conjunction == 'and' ? "selected" : "" }>and</option><option ${query.conjunction == 'or' ? "selected" : "" }>or</option></select>
+          </div>
+        </div>  
+        <div class="control-group">
+          <label class='control-label'><a class="delete_criteria">delete</a></label>
+          <div class="controls">
+            <input class="btn pull-right" type="submit" value="save">
+            <span class="edit_save_message"></span>
+          </div>
+        </div>
       <% end %>
     </div>
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_edit">
-    <div style="position: relative; border-radius:12px;padding:10px; border:1px solid #aaa;background-color:#CCC;">
+    <div class="edit-dialog-popup">
       <span class="close_edit" style="position:absolute; top: 0; right: 0;">close</span>
       <div style="width: 0px; height: 0px;"><!-- This is crap. --><div class="arrow-w" style="position: relative; top: 45px; left: -86px;"></div></div>
       <%= form_tag({:action => 'upsert_criteria'}, {:onsubmit => "return bonnie.builder.editDataCriteria_submit(this)"}) do %>
@@ -572,9 +577,9 @@
             <td>Value</td>
             <td>
               <div>
-                <label><input type="radio" class="value_type" value="PQ" />Value</label>
-                <label><input type="radio" class="value_type" value="IVL_PQ" />Range</label>
-                <label><input type="radio" class="value_type" value="CD" />Coded</label>
+                <label class="radio inline"><input type="radio" class="value_type" value="PQ" />Value</label>
+                <label class="radio inline"><input type="radio" class="value_type" value="IVL_PQ" />Range</label>
+                <label class="radio inline"><input type="radio" class="value_type" value="CD" />Coded</label>
               </div>
               <div class="criteria_value_value">
                 {{tmpl(typeof value=='undefined'?undefined:value) '#bonnie_tmpl_data_criteria_value'}}
@@ -709,7 +714,7 @@
     </ul>
 
     <div class="tab-content" id="measureEditContainer">
-      <div id="workspace" style="padding:10px;border-radius:12px;margin:10px;border:1px solid #aaa;background-color:#f5f5f5;float:right;width:340px;min-height:700px">
+      <div id="workspace" style="padding:0 10px;margin:10px;float:right;min-height:700px">
         <p>Workspace edit controls</p>
       </div>
 
