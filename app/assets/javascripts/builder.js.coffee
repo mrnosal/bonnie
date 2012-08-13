@@ -503,6 +503,8 @@ class @bonnie.Builder
           if (!$(this).hasClass('collapsed'))
             $(this).width($(this).siblings('.paramItem:first').width()-10);
           $(this).toggleClass('collapsed');
+          $('#workspace').empty()
+          $('.paramItem').removeClass('editing')
           $(this).siblings(".paramItem:first").slideToggle("slow");
           e.stopPropagation()
         )
@@ -619,6 +621,8 @@ class @bonnie.Builder
         if (!$(this).hasClass('collapsed'))
           $(this).width($(this).siblings('.paramItem:first').width()-10)
         $(this).toggleClass('collapsed')
+        $('#workspace').empty()
+        $('.paramItem').removeClass('editing')
         $(this).siblings(".paramItem:first").slideToggle("slow")
         e.stopPropagation()
       )
@@ -687,6 +691,7 @@ class @bonnie.Builder
     bonnie.template("confirm_criteria_delete",
       criteria_id: criteria_id
       precondition_id: precondition_id
+      precondition_name : bonnie.builder.preconditions[precondition_id]
     ).bind("hidden", ->
       $(this).remove()
     ).on("click", "input#confirm_criteria_delete_confirm", ->

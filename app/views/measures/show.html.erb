@@ -501,10 +501,10 @@
         <h3>Confirm Attribute Deletion</h3>
       </div>
       <div class="modal-body">
-        <p style="text-align: center">Are you sure you wish to delete the attribute<br />${criteria_id || 'Precondition ' + precondition_id}?</p>
+        <p>Are you sure you wish to delete the attribute <strong>${criteria_id || 'Precondition ' + precondition_id}</strong> ${"(" + precondition_name + ")" || ""} ?</p>
       </div>
       <div class="modal-footer">
-        <button class="close btn" data-dismiss="modal">Close</button>
+        <button class="btn" data-dismiss="modal">Cancel</button>
         <input type="button" id="confirm_criteria_delete_confirm" class="btn btn-primary" value="Confirm Delete"></a>
       </div>
     </div>
@@ -522,9 +522,11 @@
         <div class="control-group">
           <label class="control-label">Name</label>
           <div class="controls">
-            <input type="text" name="name" value="${bonnie.builder.preconditions[id]}" />
+            <div class="input-append">
+              <input type="text" name="name" value="${bonnie.builder.preconditions[id]}" id="precondition_name_edit" placeholder="(enter display name)"/><b class="add-on" title="clear the name for this precondition" onclick="$('#precondition_name_edit').val('')"><i class="icon-ban-circle"></i></b>
+            </div>
           </div>
-        </div>  
+        </div>
         <div class="control-group">
           <label class="control-label">Logical Operator</label>
           <div class="controls">

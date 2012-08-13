@@ -60,10 +60,12 @@
   span.and {
     display: inline-block;
     background-color: $eligibilityParamGroupAND;
+    border:1px solid darken($eligibilityParamGroupAND,10%);
   }
   span.or {
     display: inline-block;
     background-color: #dddddd;
+    border:1px solid darken(#dddddd,10%);
   }
   span.not {
     display: inline-block;
@@ -299,7 +301,9 @@
   .paramGroup {
     background-color: $outcomeParamGroup;
     .and {
-      background-color: $outcomeParamGroup; }
+      background-color: $outcomeParamGroup;
+      border-color:darken($outcomeParamGroup,10%);
+    }
     .paramGroup {
       background-color: #9db26d;
       width: auto;
@@ -361,6 +365,7 @@
     }
     .and {
       background-color: #dddddd;
+      border-color:darken(#dddddd,10%);
     }
   }
   .paramItem.ui-draggable-dragging {border:2px solid $initialPopulationParamGroup}
@@ -403,6 +408,7 @@
     }
     .and {
       background-color: $exclusionsGroup;
+    border-color:darken($exclusionsGroup,10%);
     }
   }
   span.subset-operator {
@@ -456,6 +462,7 @@ div.start-drag {color:red !important;background-color:red !important;opacity:0.5
     }
     .and {
       background-color: #dddddd;
+      border-color:darken(#dddddd,10%);
     }
   }
   .paramItem.ui-draggable-dragging {border:2px solid #dcdcdc}
