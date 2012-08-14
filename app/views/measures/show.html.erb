@@ -225,7 +225,6 @@
           }
         }
       );
-
       $('#workspace').on('click', '.delete_criteria', bonnie.builder.delete_criteria_handler);
 
       $(document.body).on('change', '#data_criteria_new select[name=category]',
@@ -283,20 +282,24 @@
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_temporal_drop_zone">
+    <div class="control-group">
+    <div class="controls">
     <div draggable="true" class="temporal_drop_zone paramItem">
       <input class="temporal_reference_value" type="hidden"{{if reference}} value="${reference}"{{/if}} />
       <div class="temporal_drop_label">Drop Reference Here</div>
       <div class="close">&times;</div>
     </div>
+    </div>
+    </div>
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_temporal_reference">
-    <tr>
-      <td>Temporal:</td>
-      <td class="temporal_reference">
+    <div class="temporal_reference" style="padding-top:10px">
+      <div class="control-group">
+      <label class="control-label">Temporal</label>
+      <div class="controls">
         <div style="text-align: right;" class="close">&times;</div>
-        <div>
-          <select class="temporal_type">
+          <select class="temporal_type input-large">
             <option value="">Select a type</option>
             <option value="CONCURRENT">Concurrent with</option>
             <option value="DURING">During</option>
@@ -313,46 +316,50 @@
             <option value="SCW">Starts Concurrent with</option>
             <option value="SDU">Starts During</option>
           </select>
+      </div>
+    </div>
+        <div class="control-group">
+          <label class="control-label" style="text-align:right">Low</label>
+          <div class="controls">
+            <select class="temporal_range_low_relation" style="width: 50px;">
+              <option value="gt">&gt;</option>
+              <option value="gte">&gt;=</option>
+            </select>
+            <input class="temporal_range_low_value" type="text" style="width: 55px;" value="{{if range}}${range.low && range.low.value || ''}{{/if}}"/>
+            <select class="temporal_range_low_unit" style="width: 65px;">
+              <option value="">unit</option>
+              <option value="a">yrs</option>
+              <option value="d">days</option>
+              <option value="h">hrs</option>
+              <option value="min">mins</option>
+              <option value="mo">mo.</option>
+              <option value="s">secs</option>
+              <option value="wk">wks</option>
+            </select>
+          </div>
         </div>
-        <div>
-        <div>Low</div>
-          <select class="temporal_range_low_relation" style="width: 60px;">
-            <option value="gt">&gt;</option>
-            <option value="gte">&gt;=</option>
-          </select>
-          <input class="temporal_range_low_value" type="text" style="width: 60px;" value="{{if range}}${range.low && range.low.value || ''}{{/if}}"/>
-          <select class="temporal_range_low_unit" style="width: 80px;">
-            <option value="">unit</option>
-            <option value="a">yrs</option>
-            <option value="d">days</option>
-            <option value="h">hrs</option>
-            <option value="min">mins</option>
-            <option value="mo">mo.</option>
-            <option value="s">secs</option>
-            <option value="wk">wks</option>
-          </select>
-        </div>
-        <div>
-          <div>High</div>
-          <select class="temporal_range_high_relation" style="width: 60px;">
-            <option value="lte">&lt;=</option>
-            <option value="lt">&lt;</option>
-          </select>
-          <input class="temporal_range_high_value" type="text" style="width: 60px;" value="{{if range}}${range.high && range.high.value || ''}{{/if}}"/>
-          <select class="temporal_range_high_unit" style="width: 80px;">
-            <option value="">unit</option>
-            <option value="a">yrs</option>
-            <option value="d">days</option>
-            <option value="h">hrs</option>
-            <option value="min">mins</option>
-            <option value="mo">mo.</option>
-            <option value="s">secs</option>
-            <option value="wk">wks</option>
-          </select>
+        <div class="control-group">
+          <label class="control-label" style="text-align:right">High</label>
+          <div class="controls">
+            <select class="temporal_range_high_relation" style="width: 50px;">
+              <option value="lte">&lt;=</option>
+              <option value="lt">&lt;</option>
+            </select>
+            <input class="temporal_range_high_value" type="text" style="width: 55px;" value="{{if range}}${range.high && range.high.value || ''}{{/if}}"/>
+            <select class="temporal_range_high_unit" style="width: 65px;">
+              <option value="">unit</option>
+              <option value="a">yrs</option>
+              <option value="d">days</option>
+              <option value="h">hrs</option>
+              <option value="min">mins</option>
+              <option value="mo">mo.</option>
+              <option value="s">secs</option>
+              <option value="wk">wks</option>
+            </select>
+          </div>
         </div>
         {{tmpl '#bonnie_tmpl_data_criteria_temporal_drop_zone'}}
-      </td>
-    </tr>
+      </div>
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_subset_operator">
@@ -417,7 +424,7 @@
           </label>
           <div class="negation_reason_oid" style="display: none">
             <label>Negation Reason OID
-              <select name="negation_code_list_id">
+              <select name="negation_code_list_id" class="input-large">
                 <% @measure.value_sets.map{|s| s.attributes.select{|k,v| ['concept', 'oid'].include?(k) } }.each {|v|%>
                   <option value="<%= v['oid'] %>"><%= v['concept'] %> - <%= v['oid'] %></option>
                 <% } %>
@@ -438,8 +445,8 @@
   <script type="text/html" id="bonnie_tmpl_data_criteria_value">
     <div class="data_criteria_value">
       <input class="data_criteria_value_relation" type="hidden" value="eq">
-      <input class="data_criteria_value_value" type="text" style="width: 120px;" value="{{if value}}${value}{{/if}}"/>
-      <input class="data_criteria_value_unit" style="width: 60px;" value="{{if unit}}${unit}{{/if}}" />
+      <input class="data_criteria_value_value" type="text" style="width: 115px;" value="{{if value}}${value}{{/if}}"/>
+      <input class="data_criteria_value_unit" style="width: 50px;" value="{{if unit}}${unit}{{/if}}" />
     </div>
   </script>
 
@@ -451,8 +458,8 @@
           <option value="gt">&gt;</option>
           <option value="gte">&gt;=</option>
         </select>
-        <input class="data_criteria_range_low_value" type="text" style="width: 60px;" value="{{if low}}${low.value || ''}{{/if}}"/>
-        <input class="data_criteria_range_low_unit" style="width: 60px;" value="{{if low}}${low.unit || ''}{{/if}}" />
+        <input class="data_criteria_range_low_value" type="text" style="width: 50px;" value="{{if low}}${low.value || ''}{{/if}}"/>
+        <input class="data_criteria_range_low_unit" style="width: 50px;" value="{{if low}}${low.unit || ''}{{/if}}" />
       </div>
       <div>
         <div>High</div>
@@ -460,14 +467,14 @@
           <option value="lte">&lt;=</option>
           <option value="lt">&lt;</option>
         </select>
-        <input class="data_criteria_range_high_value" type="text" style="width: 60px;" value="{{if high}}${high.value || ''}{{/if}}"/>
-        <input class="data_criteria_range_high_unit" style="width: 60px;" value="{{if high}}${high.unit || ''}{{/if}}" />
+        <input class="data_criteria_range_high_value" type="text" style="width: 50px;" value="{{if high}}${high.value || ''}{{/if}}"/>
+        <input class="data_criteria_range_high_unit" style="width: 50px;" value="{{if high}}${high.unit || ''}{{/if}}" />
       </div>
     </div>
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_coded">
-    <select class="data_criteria_oid">
+    <select class="data_criteria_oid input-large">
       <option value="">--</option>
       {{each bonnie.builder.value_sets}}
         <option value="${$index}">${$value.concept}</option>
@@ -513,106 +520,109 @@
    <script type="text/html" id="bonnie_tmpl_precondition_edit">
     <div class="edit-dialog-popup">
       <span class="close_edit">close</span>
-      <div style="width: 0px; height: 0px;"><!-- This is crap. --><div class="arrow-w" style="position: relative; top: 45px; left: -86px;"></div></div>
-      <%= form_tag({:action => 'name_precondition'}, {:class=> 'form-horizontal', :onsubmit => "!$(this).ajaxSubmit({success:bonnie.builder.showSaved.curry(this)}); return false"}) do %>
+      <div style="width: 0px; height: 0px;"><div class="arrow-w" style="position: relative; top: 45px; left: -86px;"></div></div>
+      <%= form_tag({:action => 'name_precondition'}, {:class=> 'form-horizontal', :onsubmit => "bonnie.builder.savePrecondition();!$(this).ajaxSubmit({success:bonnie.builder.showSaved.curry(this)}); return false"}) do %>
         <input type="hidden" name="id" value="<%= params[:id] %>" />
         <input type="hidden" name="precondition_id" value="${id}">
         <h4>Precondition ${id}</h4>
         <fieldset>
         <div class="control-group">
-          <label class="control-label">Name</label>
+          <label class="control-label">Display Name</label>
           <div class="controls">
             <div class="input-append">
-              <input type="text" name="name" value="${bonnie.builder.preconditions[id]}" id="precondition_name_edit" placeholder="(enter display name)"/><b class="add-on" title="clear the name for this precondition" onclick="$('#precondition_name_edit').val('')"><i class="icon-ban-circle"></i></b>
+              <input type="text" name="name" class="input-medium" value="${bonnie.builder.preconditions[id]}" id="precondition_name_edit" placeholder="(enter display name)"/><b class="add-on" title="clear the name for this precondition" onclick="$('#precondition_name_edit').val('')"><i class="icon-ban-circle"></i></b>
             </div>
           </div>
         </div>
         <div class="control-group">
           <label class="control-label">Logical Operator</label>
           <div class="controls">
-            <select class="input input-mini" name="conjunction"><option ${query.conjunction == 'and' ? "selected" : "" }>and</option><option ${query.conjunction == 'or' ? "selected" : "" }>or</option></select>
+            <select class="input input-mini" id="precondition_conjunction" name="conjunction"><option ${query.conjunction == 'and' ? "selected" : "" }>and</option><option ${query.conjunction == 'or' ? "selected" : "" }>or</option></select>
           </div>
         </div>  
         <div class="control-group">
           <label class='control-label'><a class="delete_criteria">delete</a></label>
           <div class="controls">
-            <input class="btn pull-right" type="submit" value="save">
+            <input class="btn pull-right" type="submit" id="save_precondition" value="save">
             <span class="edit_save_message"></span>
           </div>
         </div>
+        </fieldset>
       <% end %>
     </div>
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_edit">
     <div class="edit-dialog-popup">
-      <span class="close_edit" style="position:absolute; top: 0; right: 0;">close</span>
-      <div style="width: 0px; height: 0px;"><!-- This is crap. --><div class="arrow-w" style="position: relative; top: 45px; left: -86px;"></div></div>
-      <%= form_tag({:action => 'upsert_criteria'}, {:onsubmit => "return bonnie.builder.editDataCriteria_submit(this)"}) do %>
+      <span class="close_edit">close</span>
+      <div style="width: 0px; height: 0px;"><div class="arrow-w" style="position: relative; top: 45px; left: -86px;"></div></div>
+      <%= form_tag({:action => 'upsert_criteria'}, {:class=> 'form-horizontal', :onsubmit => "return bonnie.builder.editDataCriteria_submit(this)"}) do %>
         <input type="hidden" name="id" value="<%= params[:id] %>" />
         <input type="hidden" name="criteria_id" value="${id}" />
         <input type="hidden" name="precondition_id" value="${precondition_id}" />
         <h4>${title}</h4>
-        <table>
-          <tr>
-            <td>Display Name</td>
-            <td><input name="display_name" value="${display_name}" /></td>
-          </tr>
-          <tr>
-            <td>Category:</td>
-            <td>
-              <select name="category">
-              <% HQMF::DataCriteria.statuses_by_definition.each {|v| %>
-                <option value="<%= v[:category] %>"><%= v[:category] %></option>
-              <% } %>
-            </select>
-            </td>
-          </tr>
-          <tr>
-            <td>Status / Subcategory:</td>
-            <td>
-              <select name="subcategory"></select>
-            </td>
-          </tr>
+        <fieldset>
+        <div class="control-group">
+          <label class="control-label">Display Name</label>
+          <div class="controls">
+            <div class="input-append">
+              <input name="display_name" class="input-medium" value="${display_name}" placeholder="(enter display name)"/><b class="add-on" title="clear the name for this group" onclick="$(this).siblings('input[name=display_name]').val('')"><i class="icon-ban-circle"></i></b>
+            </div>
           </div>
-          <tr class="criteria_value">
-            <td>Value</td>
-            <td>
-              <div>
-                <label class="radio inline"><input type="radio" class="value_type" value="PQ" />Value</label>
-                <label class="radio inline"><input type="radio" class="value_type" value="IVL_PQ" />Range</label>
-                <label class="radio inline"><input type="radio" class="value_type" value="CD" />Coded</label>
-              </div>
-              <div class="criteria_value_value">
-                {{tmpl(typeof value=='undefined'?undefined:value) '#bonnie_tmpl_data_criteria_value'}}
-                {{tmpl(typeof value=='undefined'?undefined:value) '#bonnie_tmpl_data_criteria_range'}}
-                {{tmpl '#bonnie_tmpl_data_criteria_coded'}}
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>Not done</td>
-            <td>
-              <select name="negation">
-                <option value="">False</option>
-                <option value="true">True</option>
-              </select>
-            </td>
-          </tr>
-          <tr class="negation_reason_oid" style="display: none">
-            <td>Negation Reason</td>
-            <td>
-              <select>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Category</label>
+          <div class="controls">
+            <select name="category" class="input-large">
+            <% HQMF::DataCriteria.statuses_by_definition.each {|v| %>
+              <option value="<%= v[:category] %>"><%= v[:category] %></option>
+            <% } %>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Status / Subcategory</label>
+          <div class="controls">
+              <select name="subcategory" class="input-large"></select>
+          </div>
+        </div>
+        <div class="control-group criteria_value">
+          <label class="control-label">Value</label>
+          <div class="controls">
+            <label class="radio inline"><input type="radio" class="value_type" value="PQ" />Value</label>
+            <label class="radio inline"><input type="radio" class="value_type" value="IVL_PQ" />Range</label>
+            <label class="radio inline"><input type="radio" class="value_type" value="CD" />Coded</label>
+          </div>
+          <div class="controls criteria_value_value">
+            {{tmpl(typeof value=='undefined'?undefined:value) '#bonnie_tmpl_data_criteria_value'}}
+            {{tmpl(typeof value=='undefined'?undefined:value) '#bonnie_tmpl_data_criteria_range'}}
+            {{tmpl '#bonnie_tmpl_data_criteria_coded'}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Not done</label>
+          <div class="controls">
+            <select name="negation" class="input-large">
+              <option value="">False</option>
+              <option value="true">True</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group negation_reason_oid" style="display:none">
+          <label class="control-label">Negation Reason</label>
+          <div class="controls">
+              <select class="input-large">
                 <% @measure.value_sets.map{|s| s.attributes.select{|k,v| ['concept', 'oid'].include?(k) } }.each {|v|%>
                   <option value="<%= v['oid'] %>"><%= v['concept'] %> - <%= v['oid'] %></option>
                 <% } %>
               </select>
-            </td>
-          </tr>
+          </div>
+        </div>
           {{each temporal_references}}
             {{tmpl($value) '#bonnie_tmpl_data_criteria_temporal_reference'}}
           {{/each}}
-          <tr id="temporal_new_position">
+             <table>
+     <tr id="temporal_new_position">
             <td></td>
             <td><input type="button" id="temporal_new" value="New Temporal Reference" /></td>
           </tr>
@@ -643,6 +653,7 @@
             <td><a onclick="$.post('<%= url_for({:action => 'save_data_criteria'}) %>', {authenticity_token: $('meta[name=csrf-token]').val(), criteria_id: $(this).parents('form').find('input[name=criteria_id]').val()});">Save Data Criteria</a></td>
           </tr>
         </table>
+        </fieldset>
       <% end %>
     </div>
   </script>

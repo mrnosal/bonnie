@@ -53,9 +53,26 @@ class @bonnie.Builder
       if data_criteria = @dataCriteria($(element).data('criteria-id'))
         bonnie.template('data_criteria_edit', $.extend({}, data_criteria, {precondition_id: $(element).data('precondition-id')})).appendTo('#workspace')
       else if $(element).data('precondition-id')
+        id = $(element).data('precondition-id')
+        query = $(element).data('query-struct')
+        @savePrecondition = =>
+          console.log(query)
+          g = query.parent.childIndexByKey(query,'precondition_id')
+          c1 = query.parent.removeAtIndex(g).pop()
+          conjunction = $("#precondition_conjunction").val()
+          if conjunction ==  'and'
+            child = new queryStructure.AND()
+          else
+            child = new queryStructure.OR()
+          child.parent = c1.parent
+          child.children = c1.children
+          child.negation = c1.negation
+          child.precondition_id = id
+          child.parent.children.splice(g,0,child)
+          @preconditions[id] = $("#precondition_name_edit").val()
+          @pushTree(child)
         bonnie.template('precondition_edit', {id: $(element).data('precondition-id'), precondition_id: $(element).data('precondition-id'), query: $(element).data('query-struct')}).appendTo('#workspace')
-
-
+       
     offset = leaf.offset().top + leaf.height()/2 - $('#workspace').offset().top - element.height()/2
     offset = 0 if offset < 0
     maxoffset = $('#measureEditContainer').height() - element.outerHeight(true) - $('#workspace').position().top - $('#workspace').outerHeight(true) + $('#workspace').height()
@@ -275,12 +292,15 @@ class @bonnie.Builder
     });
 
   showSaved: (e) =>
+    $('#workspace').empty()
+    ###
     $(e).find('.edit_save_message').empty().append('<span style="color: green">Saved!</span>')
     setTimeout (->
       $(e).find(".edit_save_message > span").fadeOut ->
         $(this).remove()
     ), 3000
-
+    ###
+    
   pushTree: (queryObj) =>
     finder = queryObj
     f = (while finder.parent

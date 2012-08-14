@@ -17,14 +17,87 @@
     .control-group {
       margin-bottom:10px;
       &>label { 
-        width:100px;
+        width:115px;
         text-align:left;
         color:$gray;
       }
     }
     .controls {
-      margin-left:110px;
+      margin-left:120px;
+      .input-large {width:187px;}
     }
 }
 }
+
+
+/* there is probably a better way to accomplish this */
+.arrow-w {
+  margin:5px 0 10px;
+  padding:1px 2px;
+  border-style: dashed;
+  border-color: transparent;
+  border-width: 36px;
+  display: -moz-inline-box;
+  display: inline-block;
+  font-size: 30px;
+  height: 0;
+  line-height: 0;
+  position: relative;
+  vertical-align: middle;
+  width: 0;
+  border-right-width: 36px;
+  border-right-style: solid;
+  border-right-color: #aaa;
+}
+
+
+.temporal_drop_zone {
+  display: block;
+  background-color: #BBB;
+  min-height: 25px;
+  border: 2px dotted darken($initialPopulationParamGroup,20);
+  width: 200px;
+  position: relative;
+  padding: 4px;
+  margin: 0;
+  margin-bottom: 9px;
+  &.denominator {
+    border-color: darken($eligibilityParamGroup,25);
+  }
+  &.numerator {
+    border-color: darken($outcomeParamGroup,25);
+  }
+  &.exclusions {
+    border-color: darken($exclusionsGroup,25);
+  }
+  &.exceptions {
+    border-color: darken($exceptionsGroup,25);
+  }
+  
+  &.fullDrop {
+    background-color: white;
+  }
+
+  &:not(.fullDrop) .temporal_drop_label {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 18px;
+    color: black;
+    text-shadow: 0 1px 0 white;
+    opacity: 0.2;
+  }
+
+  .temporal_drop_label {
+    word-wrap: break-word;
+    margin-right: 20px;
+  }
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 5px;
+  }
+}
+
 }
