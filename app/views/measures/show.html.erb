@@ -282,14 +282,10 @@
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_temporal_drop_zone">
-    <div class="control-group">
-    <div class="controls">
-    <div draggable="true" class="temporal_drop_zone paramItem">
+    <div draggable="true" class="temporal_drop_zone paramItem ${population}">
       <input class="temporal_reference_value" type="hidden"{{if reference}} value="${reference}"{{/if}} />
       <div class="temporal_drop_label">Drop Reference Here</div>
       <div class="close">&times;</div>
-    </div>
-    </div>
     </div>
   </script>
 
@@ -358,9 +354,13 @@
             </select>
           </div>
         </div>
-        {{tmpl '#bonnie_tmpl_data_criteria_temporal_drop_zone'}}
+        <div class="control-group">
+          <div class="controls">        
+            {{tmpl '#bonnie_tmpl_data_criteria_temporal_drop_zone'}}
+          </div>
+        </div>
       </div>
-  </script>
+ </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_subset_operator">
     <tr>
@@ -618,36 +618,40 @@
               </select>
           </div>
         </div>
-          {{each temporal_references}}
-            {{tmpl($value) '#bonnie_tmpl_data_criteria_temporal_reference'}}
-          {{/each}}
-             <table>
-     <tr id="temporal_new_position">
-            <td></td>
-            <td><input type="button" id="temporal_new" value="New Temporal Reference" /></td>
-          </tr>
+        ${population = ''}
+        {{each temporal_references}}
+          {{tmpl($value) '#bonnie_tmpl_data_criteria_temporal_reference'}}
+        {{/each}}
+        <div class="control-group" id="temporal_new_position">
+            <div class="controls">
+              <input type="button" class="btn" id="temporal_new" value="New Temporal Reference" />
+            </div>
+        </div>
           {{each subset_operators}}
             {{tmpl($value) '#bonnie_tmpl_data_criteria_subset_operator'}}
           {{/each}}
-          <tr id="subset_new_position">
-            <td></td>
-            <td><input type="button" id="subset_new" value="New Subset Operator" /></td>
-          </tr>
+          <div class="control-group" id="subset_new_position">
+            <div class="controls">
+              <input type="button" class="btn" id="subset_new" value="New Subset Operator" />
+            </div>
+          </div>
           {{each field_values}}
             {{tmpl($value) '#bonnie_tmpl_data_criteria_field_value'}}
           {{/each}}
-          <tr id="field_new_position">
-            <td></td>
-            <td><input type="button" id="field_new" value="New Field Value" /></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              {{if typeof precondition_id != 'undefined'}}<input type="button" class="delete_criteria" value="Delete">{{/if}}
-              <input style="float:right; margin-right: 20px;" type="submit" value="save">
-              <span class="edit_save_message"></span>
-            </td>
-          </tr>
+          <div class="control-group" id="field_new_position">
+            <div class="controls">
+              <input type="button" class="btn" id="field_new" value="New Field Value" />
+            </div>
+          </div>
+        <div class="control-group" style="border-top:1px solid #ccc;padding-top:10px">
+          {{if typeof precondition_id != 'undefined'}}<label class='control-label'><a class="delete_criteria">delete</a></label>{{/if}}
+          <div class="controls">
+            <input class="btn pull-right" type="submit" value="save">
+            <span class="edit_save_message"></span>
+          </div>
+        </div>
+          
+        <table>
           <tr>
             <td></td>
             <td><a onclick="$.post('<%= url_for({:action => 'save_data_criteria'}) %>', {authenticity_token: $('meta[name=csrf-token]').val(), criteria_id: $(this).parents('form').find('input[name=criteria_id]').val()});">Save Data Criteria</a></td>

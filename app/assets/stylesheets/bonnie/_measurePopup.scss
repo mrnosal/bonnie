@@ -53,7 +53,7 @@
 
 .temporal_drop_zone {
   display: block;
-  background-color: #BBB;
+  background-color: white;
   min-height: 25px;
   border: 2px dotted darken($initialPopulationParamGroup,20);
   width: 200px;
@@ -63,6 +63,7 @@
   margin-bottom: 9px;
   &.denominator {
     border-color: darken($eligibilityParamGroup,25);
+    background-color : lighten($eligibilityParamGroup,20);
   }
   &.numerator {
     border-color: darken($outcomeParamGroup,25);
@@ -81,11 +82,12 @@
   &:not(.fullDrop) .temporal_drop_label {
     text-align: center;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: normal;
     line-height: 18px;
     color: black;
     text-shadow: 0 1px 0 white;
-    opacity: 0.2;
+    opacity: 0.45;
+    padding-top:3px;
   }
 
   .temporal_drop_label {
