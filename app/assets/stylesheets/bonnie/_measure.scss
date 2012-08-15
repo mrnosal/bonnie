@@ -650,8 +650,11 @@ div.start-drag {color:red !important;background-color:red !important;opacity:0.5
     }
   }
 
-  .subset_operator, .criteria_value {
+  .subset_operator, .criteria_value, .field_value {
+    border-top:1px solid #ccc;
+    padding-top:10px;
     label {
+      xbackground-color:red;
       padding-bottom:6px;
       line-height:21px;
     }

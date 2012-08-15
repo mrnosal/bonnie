@@ -219,9 +219,9 @@
         function(){
           $(this).parent().siblings().children('.subset_range_type').attr('checked', null);
           if ($(this).val() == 'value'){
-            $(this).parents('.subset_operator').find('.data_criteria_value').show().siblings().hide();
+            $(this).parents('.subset_operator').find('.subset_value').show().end().find('.subset_range').hide();
           } else {
-            $(this).parents('.subset_operator').find('.data_criteria_range').show().siblings().hide();
+            $(this).parents('.subset_operator').find('.subset_range').show().end().find('.subset_value').hide();
           }
         }
       );
@@ -292,7 +292,7 @@
   <script type="text/html" id="bonnie_tmpl_data_criteria_temporal_reference">
     <div class="temporal_reference" style="padding-top:10px">
       <div class="control-group">
-      <label class="control-label">Temporal</label>
+      <label class="control-label"><strong>Temporal</strong></label>
       <div class="controls">
         <div style="text-align: right;" class="close">&times;</div>
           <select class="temporal_type input-large">
@@ -363,12 +363,12 @@
  </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_subset_operator">
-    <tr>
-      <td>Subset:</td>
-      <td class="subset_operator">
+  <div class="subset_operator">
+    <div class="control-group">
+      <label class="control-label"><strong>Subset</strong></label>
+      <div class='controls'>
         <div style="text-align: right;" class="close">&times;</div>
-        <div>
-          <select class="subset_type">
+          <select class="subset_type input-large">
             <option value="COUNT">COUNT</option>
             <option value="FIRST">FIRST</option>
             <option value="SECOND">SECOND</option>
@@ -381,16 +381,19 @@
             <option value="MAX">MAX</option>
           </select>
         </div>
-        <div>
-          <label><input type="radio" class="subset_range_type" value="value" />Value</label>
-          <label><input type="radio" class="subset_range_type" value="range" />Range</label>
+        <div class="controls" style="padding-top:10px">
+          <label class="radio inline"><input type="radio" class="subset_range_type" value="value" /> Value</label>
+          <label class="radio inline"><input type="radio" class="subset_range_type" value="range" /> Range</label>
         </div>
-        <div class="subset_value">
+        <div class="controls subset_value">
           {{tmpl(typeof range=='undefined'||typeof range.low=='undefined'?undefined:range.low) '#bonnie_tmpl_data_criteria_value'}}
+        </div>
+        <div class="controls subset_range">
           {{tmpl(typeof range=='undefined'?undefined:range) '#bonnie_tmpl_data_criteria_range'}}
         </div>
-      </td>
-    </tr>
+      </div>
+      </div>      
+
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_new">
@@ -458,8 +461,8 @@
           <option value="gt">&gt;</option>
           <option value="gte">&gt;=</option>
         </select>
-        <input class="data_criteria_range_low_value" type="text" style="width: 50px;" value="{{if low}}${low.value || ''}{{/if}}"/>
-        <input class="data_criteria_range_low_unit" style="width: 50px;" value="{{if low}}${low.unit || ''}{{/if}}" />
+        <input class="data_criteria_range_low_value" placeholder="(value)" type="text" style="width: 50px;" value="{{if low}}${low.value || ''}{{/if}}"/>
+        <input class="data_criteria_range_low_unit" placeholder="(unit)" style="width: 50px;" value="{{if low}}${low.unit || ''}{{/if}}" />
       </div>
       <div>
         <div>High</div>
@@ -467,8 +470,8 @@
           <option value="lte">&lt;=</option>
           <option value="lt">&lt;</option>
         </select>
-        <input class="data_criteria_range_high_value" type="text" style="width: 50px;" value="{{if high}}${high.value || ''}{{/if}}"/>
-        <input class="data_criteria_range_high_unit" style="width: 50px;" value="{{if high}}${high.unit || ''}{{/if}}" />
+        <input class="data_criteria_range_high_value" placeholder="(value)" type="text" style="width: 50px;" value="{{if high}}${high.value || ''}{{/if}}"/>
+        <input class="data_criteria_range_high_unit" placeholder="(unit)" style="width: 50px;" value="{{if high}}${high.unit || ''}{{/if}}" />
       </div>
     </div>
   </script>
@@ -483,23 +486,23 @@
   </script>
 
   <script type="text/html" id="bonnie_tmpl_data_criteria_field_value">
-    <tr>
-      <td>Field Value:</td>
-      <td class="field_value">
+    <div class="control-group field_value">
+      <label class="control-label"><strong>Field Value</strong></label>
+      <div class="controls">
         <div style="text-align: right;" class="close">&times;</div>
-        <div>
-          <select class="field_type">
+          <select class="field_type input-large">
             <option value="">--</option>
             <% HQMF::DataCriteria::FIELDS.each do |key,value| %>
               <option value="<%= key %>"><%= value[:title]%></option>
             <% end %>
           </select>
-        </div>
-        <div>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
           {{tmpl '#bonnie_tmpl_data_criteria_coded'}}
-        </div>
-      </td>
-    </tr>
+      </div>
+    </div>
   </script>
 
    <script type="text/html" id="bonnie_tmpl_confirm_criteria_delete">
@@ -587,7 +590,7 @@
           </div>
         </div>
         <div class="control-group criteria_value">
-          <label class="control-label">Value</label>
+          <label class="control-label"><strong>Value</strong></label>
           <div class="controls">
             <label class="radio inline"><input type="radio" class="value_type" value="PQ" />Value</label>
             <label class="radio inline"><input type="radio" class="value_type" value="IVL_PQ" />Range</label>

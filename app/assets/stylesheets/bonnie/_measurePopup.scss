@@ -13,6 +13,9 @@
     float:right;
     text-align:right;
   }
+  .btn { 
+    margin-left:0;
+  }
   .form-horizontal {
     .control-group {
       margin-bottom:10px;
@@ -21,12 +24,20 @@
         text-align:left;
         color:$gray;
       }
+      
     }
     .controls {
       margin-left:120px;
       .input-large {width:187px;}
     }
-}
+    .controls > .radio:first-child,
+    .controls > .checkbox:first-child {
+      padding-top: 0;  // override 5px padding inserted by bootstrap
+    }
+  }
+  .close:hover {
+    opacity:1;
+  }
 }
 
 
@@ -92,7 +103,7 @@
 
   .temporal_drop_label {
     word-wrap: break-word;
-    margin-right: 20px;
+    //margin-right: 20px;
   }
 
   .close {

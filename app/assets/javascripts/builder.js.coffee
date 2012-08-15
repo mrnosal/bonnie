@@ -142,10 +142,10 @@ class @bonnie.Builder
         $(subset_element[i]).find('.subset_type').val(e.type)
         if e.range && e.range.low && e.range.high && e.range.low.equals(e.range.high) && e.range.low.inclusive
           $(subset_element[i]).find('.subset_range_type[value=value]').attr('checked', true)
-          $(subset_element[i]).find('.data_criteria_value').siblings().hide()
+          $(subset_element[i]).find('.subset_value').hide()
         else
           $(subset_element[i]).find('.subset_range_type[value=range]').attr('checked', true)
-          $(subset_element[i]).find('.data_criteria_range').siblings().hide()
+          $(subset_element[i]).find('.subset_range').hide()
           $(subset_element[i]).find('.data_criteria_range_high_relation').val(if e.range && e.range.high && e.range.high.inclusive then 'lte' else 'lt')
           $(subset_element[i]).find('.data_criteria_range_low_relation').val(if e.range && e.range.low && e.range.low.inclusive then 'gte' else 'gt')
       )
