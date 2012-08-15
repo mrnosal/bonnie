@@ -5,7 +5,7 @@
   <% if current_user.admin? %> <span class="sep">|</span> <a id="manage_link" href="javascript:void(0)">manage</a> <% end %>
   <span class="sep">|</span> <%= link_to 'logout', destroy_user_session_path, 'class' => 'log'%>
   
-  <ul id="manage-menu" class="ui-menu ui-widget ui-widget-content ui-corner-all dialog-menu" role="listbox" aria-activedescendant="ui-active-menuitem">
+  <ul id="manage-menu">
     <% if current_user.admin? %>
       <li class="ui-menu-item" role="menuitem" data-type="users">
         <a class="ui-corner-all" tabindex="-1" href="<%=admin_users_path%>">Users</a>
