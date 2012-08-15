@@ -281,33 +281,71 @@ class MeasuresController < ApplicationController
 
   def patient_builder
     @measure = current_user.measures.where('_id' => params[:id]).exists? ? current_user.measures.find(params[:id]) : current_user.measures.where('measure_id' => params[:id]).first
-    @record = @measure.records.select{|r| r['_id'].to_s == params[:patient_id]}[0] || {}
+    @record = Record.where({'_id' => params[:patient_id]}).first || {}
+    @data_criteria = Hash[
+      *Measure.where({'measure_id' => {'$in' => (@record['measure_ids'] || []) << @measure['measure_id']}}).map{|m|
+        m.source_data_criteria.reject{|k,v|
+          ['patient_characteristic_birthdate','patient_characteristic_gender', 'patient_characteristic_expired'].include?(v['definition'])
+        }
+      }.map(&:to_a).flatten
+    ]
+    @value_sets = Measure.where({'measure_id' => {'$in' => @record['measure_ids'] || []}}).map{|m| m.value_sets}.flatten(1).uniq
   end
 
   def make_patient
     @measure = current_user.measures.where('_id' => params[:id]).exists? ? current_user.measures.find(params[:id]) : current_user.measures.where('measure_id' => params[:id]).first
-    values = Hash[@measure.value_sets.map{|v| [v['oid'], v]}]
+    
+    patient = Record.where({'_id' => params['record_id']}).first || HQMF::Generator.create_base_patient(params.select{|k| ['first', 'last', 'gender', 'expired', 'birthdate'].include?k })
+
+    # clear out patient data
+    if (patient.id)
+      ['allergies', 'care_goals', 'conditions', 'encounters', 'immunizations', 'medical_equipment', 'medications', 'procedures', 'results', 'social_history', 'vital_signs'].each do |section|
+        patient[section] = [] if patient[section]
+      end
+      patient.save!
+    end
+
+    patient['measure_ids'] ||= []
+    patient['measure_ids'] = Array.new(patient['measure_ids']).push(@measure['measure_id']) unless patient['measure_ids'].include? @measure['measure_id']
+    
+    values = Hash[
+      *Measure.where({'measure_id' => {'$in' => patient['measure_ids'] || []}}).map{|m|
+        m.value_sets.map{|v| [v['oid'], v]}
+      }.map(&:to_a).flatten
+    ]
+
     params['birthdate'] = params['birthdate'].to_i / 1000
-    patient = HQMF::Generator.create_base_patient(params.select{|k| ['first', 'last', 'gender', 'expired', 'birthdate'].include?k })
+    
+    @data_criteria = Hash[
+      *Measure.where({'measure_id' => {'$in' => patient['measure_ids'] || []}}).map{|m|
+        m.source_data_criteria.reject{|k,v|
+          ['patient_characteristic_birthdate','patient_characteristic_gender', 'patient_characteristic_expired'].include?(v['definition'])
+        }
+      }.map(&:to_a).flatten
+    ]
+    
+    ['first', 'last', 'gender', 'expired', 'birthdate', 'description', 'description_category'].each {|param| patient[param] = params[param]}
     patient['source_data_criteria'] = JSON.parse(params['data_criteria'])
-    patient['description'] = params['description']
-    patient['description_category'] = params['description_category']
     patient['measure_period_start'] = params['measure_period_start'].to_i
     patient['measure_period_end'] = params['measure_period_end'].to_i
+    
     JSON.parse(params['data_criteria']).each {|v|
-      data_criteria = HQMF::DataCriteria.from_json(v['id'], @measure.source_data_criteria[v['id']])
+      data_criteria = HQMF::DataCriteria.from_json(v['id'], @data_criteria[v['id']])
       data_criteria.modify_patient(patient, HQMF::Range.from_json({
         'low' => {'value' => Time.at(v['start_date'] / 1000).strftime('%Y%m%d')},
         'high' => {'value' => Time.at(v['end_date'] / 1000).strftime('%Y%m%d')}
       }), HQMF::Range.from_json('low' => {'value' => v['value'], 'unit' => v['value_unit']}), values[data_criteria.code_list_id])
     }
+
     patient['source_data_criteria'].push({'id' => 'MeasurePeriod', 'start_date' => params['measure_period_start'].to_i, 'end_date' => params['measure_period_end'].to_i})
-    if params['record_id'].blank?
-      @measure.records.push(patient)
+
+    if @measure.records.include? patient
+      render :json => patient.save!
     else
-      @measure.records = @measure.records.map{|r| if r['_id'].to_s == params['record_id'] then patient else r end }
+      @measure.records.push(patient)
+      render :json => @measure.save!
     end
-    render :json => @measure.save!
+
   end
 
   def delete_patient
@@ -320,7 +358,9 @@ class MeasuresController < ApplicationController
   end
 
   def generate_matrix
-    Measure.all.to_a.each{|m|
+    (params[:id] ? [current_user.measures.where('_id' => params[:id]).exists? ? current_user.measures.find(params[:id]) : current_user.measures.where('measure_id' => params[:id]).first] : Measure.all.to_a).each{|m|
+      MONGO_DB['query_cache'].remove({'measure_id' => m['measure_id']})
+      MONGO_DB['patient_cache'].remove({'value.measure_id' => m['measure_id']})
       (m['populations'].length > 1 ? ('a'..'zz').to_a.first(m['populations'].length) : [nil]).each{|sub_id|
         p 'Calculating measure ' + m['measure_id'] + (sub_id || '')
         qr = QME::QualityReport.new(m['measure_id'], sub_id, {'effective_date' => (params['effective_date'] || Measure::DEFAULT_EFFECTIVE_DATE).to_i }.merge(params['providers'] ? {'filters' => {'providers' => params['providers']}} : {}))
