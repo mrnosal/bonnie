@@ -705,11 +705,11 @@
       <%= link_to 'Back', measures_path %>
 
       <div><a onclick="bonnie.builder.add_new_criteria()">Add New Data Criterion</a></div>
-
+    </div>
       <div id="dataCriteria">
         <%= render partial: 'data_criteria', locals: {criteria_by_category: data_criteria_by_category(@measure.source_data_criteria)}%>
       </div>
-    </div>
+
   </div>
 
   <!-- start tab nav -->
@@ -734,7 +734,7 @@
     </ul>
 
     <div class="tab-content" id="measureEditContainer">
-      <div id="workspace" style="padding:0 10px;margin:10px;float:right;min-height:700px">
+      <div id="workspace"">
         <p>Workspace edit controls</p>
       </div>
 

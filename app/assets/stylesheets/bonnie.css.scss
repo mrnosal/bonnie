@@ -96,7 +96,7 @@ $iconWhiteSpritePath:     "/assets/glyphicons-halflings-white.png";
 @import "bonnie/matrix";
 
 html {height:100%}
-body {height:100%}
+body {height:100%;overflow:hidden}
 
 #pageButtons {
   float: right;

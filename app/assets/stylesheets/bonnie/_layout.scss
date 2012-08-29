@@ -1,4 +1,10 @@
 /* Bonnie layout */
 
 #container {height:100%;}
-#pageContent {min-height:100%;position:relative;}
+#pageContent {height:100%;position:relative;}
+#tabs {height:100%;}
+
+.tab-content {
+  overflow-y:auto;
+  max-height:100%;
+}
