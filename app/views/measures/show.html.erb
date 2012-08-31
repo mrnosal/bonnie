@@ -727,13 +727,16 @@
 
     <p id="notice"><%= notice %></p>
     <div id="pr_controls">
-        <span id="text_view" class="btn">Toggle Text View</span>
-        <select id="selector">
-          <% @measure.populations.each_with_index do |population, index| %>
-            <option value="<%= url_for :population => index, :action => 'definition' %>"<%= ' selected="selected"' if index == params[:population].to_i%>><%= population['title'] %></option>
-          <% end if @measure.populations %>
-        </select>
-    </div>    
+      <span id="text_view" class="btn">Toggle Text View</span>
+      <% if @measure.populations.count > 1 %>
+      <select id="selector">
+        <% @measure.populations.each_with_index do |population, index| %>
+          <option value="<%= url_for :population => index, :action => 'definition' %>"<%= ' selected="selected"' if index == params[:population].to_i%>><%= population['title'] %></option>
+        <% end if @measure.populations.each_with_index %>
+      </select>
+      <% end %>
+    </div>
+
     <ul id="main_tabs" class="nav nav-tabs">
       <li class="initial-population"><a href="#initialPopulation" data-toggle="tab">initial pop.</a></li>
       <li class="active denominator"><a href="#eligibilityMeasures" data-toggle="tab">denominator</a></li>
@@ -741,7 +744,7 @@
       <li class="exclusions"><a href="#exclusionMeasures" data-toggle="tab">exclusions</a></li>
       <li class="exceptions"><a href="#exceptionMeasures" data-toggle="tab">exceptions</a></li>
     </ul>
-
+    
     <div class="tab-content" id="measureEditContainer">
       <div id="workspace"">
         <p>Workspace edit controls</p>
