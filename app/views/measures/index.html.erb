@@ -16,7 +16,7 @@
 
   <!-- start tab nav -->
   <div id="tabs">
-  	<ul class="nav nav-tabs">
+  	<ul id="main_tabs" class="nav nav-tabs">
   		<li <% unless @show_published %>class="active"<% end %>><a href="#tabs-0" data-toggle="tab">my measures</a></li>
   		<li <% if @show_published %>class="active"<% end %>><a href="#tabs-1" data-toggle="tab">all published measures</a></li>
       <li id="pageButtons">

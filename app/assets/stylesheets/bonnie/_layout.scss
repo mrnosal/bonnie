@@ -1,10 +1,56 @@
 /* Bonnie layout */
 
-#container {height:100%;}
-#pageContent {height:100%;position:relative;}
-#tabs {height:100%;}
+/* new styles for absolute positioned layout */
+
+#container {
+  overflow:hidden;
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
+}
+
+#header {
+  height:36px;
+  left:0;
+  right:0;
+}
+
+#pageContent {
+  position:absolute;
+  top:36px;
+  bottom:0;
+  overflow:hidden;
+  background-color:#fff;
+  left:0;
+  right:0;
+}
+
+#tabs {
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
+#main_tabs {
+  height:28px;
+  padding-top:10px;
+}
+
 
 .tab-content {
-  overflow-y:auto;
-  max-height:100%;
+  top:39px;
+  bottom:0;
+  left:0;
+  right:0;
+  overflow:hidden;
+  overflow-y:scroll;
+  position:absolute;
+}
+
+.tab-pane {
+height:100%;
 }
