@@ -48,8 +48,8 @@
 #measureEditContainer, #patient_data_criteria {
   border-top: 1px solid $measureBorderColor;
   clear: left;
-  position: relative;
-  padding-left: $main_padding-left;
+  position: absolute;
+  padding-left: 2px;
   span {
     margin: 5px 0 5px 6px;
     padding: 2px 12px;
@@ -591,7 +591,7 @@ div.start-drag {color:red !important;background-color:red !important;opacity:0.5
 
 
 .measureDetailTable {
-  padding-top: $top_heading-padding;
+  // padding-top: $top_heading-padding;
   margin-left:300px;
   .measureDetailTable table td, #dashboardContainer .measureDetailTable table td {
     vertical-align: top;

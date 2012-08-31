@@ -106,6 +106,7 @@
       var matchTitleHeight = function() {
         var h = $("h1.measure-title").height();
         measureDetail.css("padding-top",h+20);
+        $("#tabs").css("top",h+20);
         measureDetail.find("#measureDetailBorder i").css("margin-top",h+30);
       };
 
@@ -725,21 +726,20 @@
   <div id="tabs" class="measureDetailTable">
 
     <p id="notice"><%= notice %></p>
-
-    <ul id="main_tabs" class="nav nav-tabs">
-      <li class="initial-population"><a href="#initialPopulation" data-toggle="tab">initial pop.</a></li>
-      <li class="active denominator"><a href="#eligibilityMeasures" data-toggle="tab">denominator</a></li>
-      <li class="numerator"><a href="#outcomeMeasures" data-toggle="tab">numerator</a></li>
-      <li class="exclusions"><a href="#exclusionMeasures" data-toggle="tab">exclusions</a></li>
-      <li class="exceptions"><a href="#exceptionMeasures" data-toggle="tab">exceptions</a></li>
-      <li id="pr_controls">
+    <div id="pr_controls">
         <span id="text_view" class="btn">Toggle Text View</span>
         <select id="selector">
           <% @measure.populations.each_with_index do |population, index| %>
             <option value="<%= url_for :population => index, :action => 'definition' %>"<%= ' selected="selected"' if index == params[:population].to_i%>><%= population['title'] %></option>
           <% end if @measure.populations %>
         </select>
-      </li>
+    </div>    
+    <ul id="main_tabs" class="nav nav-tabs">
+      <li class="initial-population"><a href="#initialPopulation" data-toggle="tab">initial pop.</a></li>
+      <li class="active denominator"><a href="#eligibilityMeasures" data-toggle="tab">denominator</a></li>
+      <li class="numerator"><a href="#outcomeMeasures" data-toggle="tab">numerator</a></li>
+      <li class="exclusions"><a href="#exclusionMeasures" data-toggle="tab">exclusions</a></li>
+      <li class="exceptions"><a href="#exceptionMeasures" data-toggle="tab">exceptions</a></li>
     </ul>
 
     <div class="tab-content" id="measureEditContainer">

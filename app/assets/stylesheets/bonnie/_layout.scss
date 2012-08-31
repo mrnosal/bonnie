@@ -25,6 +25,8 @@
   background-color:#fff;
   left:0;
   right:0;
+  min-width:800px;
+  overflow-x:auto;
 }
 
 #tabs {
@@ -37,7 +39,7 @@
 
 #main_tabs {
   height:28px;
-  padding-top:10px;
+  margin-top:10px;
 }
 
 
@@ -47,10 +49,10 @@
   left:0;
   right:0;
   overflow:hidden;
-  overflow-y:scroll;
+  overflow-y:auto;
   position:absolute;
 }
 
 .tab-pane {
-height:100%;
+  padding-bottom:20px;
 }

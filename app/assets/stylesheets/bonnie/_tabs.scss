@@ -2,7 +2,7 @@
 
 
 .nav-tabs > li > a {
-  padding-bottom:7px;
+  padding-bottom:8px;
   padding-right:15px;
   padding-left:15px;
   @include border-radius(22px 22px 0 0);
@@ -59,16 +59,17 @@
       background-color:$borderColor;
       color:black;
     }
-    &#pr_controls {
-      position: absolute;
-      right: 10px;
-      height: 25px;
-      top: 0;
 
-      select {
-        height: 100%;
-        width: 181px;
-      }
-    }
+  }
+}
+
+#pr_controls {
+  float:right;
+  height: 25px;
+  margin-right:10px;
+  
+  select {
+    xheight: 100%;
+    width: 140px;
   }
 }
