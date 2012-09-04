@@ -102,20 +102,24 @@
         $("#measureDetailBorder i").toggleClass("icon-backward").toggleClass("icon-forward");
       });
 
-      var measureDetail = $("#measureDetailInformation");
+      var measureDetail = $("#measureDetailDescription");
       var matchTitleHeight = function() {
         var h = $("h1.measure-title").height();
-        measureDetail.css("padding-top",h+20);
+        measureDetail.css("margin-top",h+30);
         $("#tabs").css("top",h+20);
-        measureDetail.find("#measureDetailBorder i").css("margin-top",h+30);
+        $("#measureDetailBorder i").css("margin-top",h+30);
       };
 
       $(window).on("resize",matchTitleHeight);
       matchTitleHeight();
       $(".paramChildren label").not('[data-criteria-id=MeasurePeriod] label').draggable({
-        helper: "clone",
-        containment: 'document',
+        helper: function() {
+          return $(this).parent('.paramText').clone()
+        },
+        containment: 'window',
         revert: true,
+        appendTo : '#measureDetailInformation',
+        handle:'.paramText',
         zIndex: 3000,
         distance: 3,
         opacity: "1",
@@ -137,7 +141,7 @@
         }
       )
 
-      $(document.body).on('dragstart', '.logicLeaf, div[data-criteria-id=MeasurePeriod], .temporal_drop_zone_element, #dataCriteria label',
+      $(document.body).on('dragstart', '.logicLeaf, div[data-criteria-id=MeasurePeriod], .temporal_drop_zone_element, #xdataCriteria label',
         function(e){
           if (e.originalEvent.dataTransfer) e.originalEvent.dataTransfer.setData('text', 'arbitrary data');
           if (!$(e.target).hasClass('temporal_drop_zone_element')){
@@ -690,7 +694,7 @@
 
   <div id="measureDetailInformation">
     <div id="measureDetailBorder"><i class="icon-backward icon-white"></i></div>
-    <div class="inner" style="position:relative; margin:15px 20px 15px 15px;">
+    <div id="measureDetailDescription" class="inner" style="position:relative; margin:15px 20px 15px 15px;">
       <dl>
         <dt>Reporting Period:</dt>
         <dd>
@@ -717,7 +721,9 @@
       <div><a onclick="bonnie.builder.add_new_criteria()">Add New Data Criterion</a></div>
     </div>
       <div id="dataCriteria">
+        <div style='position:relative'>
         <%= render partial: 'data_criteria', locals: {criteria_by_category: data_criteria_by_category(@measure.source_data_criteria)}%>
+        </div>
       </div>
 
   </div>

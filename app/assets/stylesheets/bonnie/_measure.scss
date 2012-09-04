@@ -25,7 +25,7 @@
   
   min-height:100%;
   width:300px;
-  xpadding:140px 0 0 0;
+  // padding:140px 0 0 0;
   #measureDetailBorder {
     height:100%;
     background-color:#bbb;
@@ -491,23 +491,32 @@ div.start-drag {color:red !important;background-color:red !important;opacity:0.5
 
 /* udpate: needs review by MN */
 #dataCriteria {
-  position:relative;
-  top:0;
+  position:absolute;
+  top:280px;
   bottom:0;
   left:0;
-  background-color:#fce;
+  border-top:1px solid #ccc;
+  // background-color:#fce;
+  background-color:#f5f5f5;
   //padding:10px 0 10px 10px;
-  margin:10px 0 10px 0;
+  margin:0;
   width:285px;
   overflow:hidden;
+  overflow-y:auto;
+  
+} 
+// was #dataCriteria, but putting the parent to measureDetailInformation because jquery needs to append
+// the clone to an element that does not have overflow:hidden
 
-
+#measureDetailInformation {
 
   .paramGroup {
-    @include border-radius(10px);
+    // @include border-radius(10px);
     background-color:#fff;
-    border:1px solid #999;
-    margin-bottom: 1em;
+    @include gradient-vertical(#f5f5f5,#e0e0e0);
+    border-top:1px solid #fff;
+    border-bottom:1px solid #999;
+    // margin-bottom: 1em;
     vertical-align:middle;
     padding: 0;
    .paramItem {
@@ -553,9 +562,12 @@ div.start-drag {color:red !important;background-color:red !important;opacity:0.5
   }
   .paramChildren {
     display: none;
-    padding: 5px 0 10px 10px;
+    padding: 15px 10px 5px 10px;
+    @include box-shadow(inset 1px 2px 5px rgba(0,0,0,0.33));
     &.data-criteria {
-      //background-color:#f5f5f5;
+     // background-color:#dddddd;
+      background:url(/assets/bg.gif) top left;
+      border-bottom:1px solid #999;
       }
    .paramItem {
        padding-bottom:0;
@@ -581,7 +593,15 @@ div.start-drag {color:red !important;background-color:red !important;opacity:0.5
     }
 
   }
-
+ label.ui-draggable {
+    @include border-radius(5px);
+    display:block;
+    background:white url(asset-path('draggable.png', image)) 4px 6px no-repeat;
+    padding:5px 4px 4px 22px;
+    border:1px solid #ccc;
+    cursor:pointer;
+  }
+  
 }
 
 
