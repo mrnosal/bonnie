@@ -1,5 +1,6 @@
 module Measures
   class Exporter
+
     # Export all measures, their test decks, necessary JS libraries, source HQMF files, and expected results to a zip file.
     # Bundled content is first collected and then zipped all together. Content is a hash with top level keys defining directories (e.g. "library_functions") pointing to hashes with filename keys (e.g. "hqmf_utils.js") pointing to their content.
     #
@@ -47,10 +48,12 @@ module Measures
 
         patient_path = File.join(patients_path, type)
         content[patient_path] = {}
+        patient_exporter = HealthDataStandards::Export::HTML.new
+
         Record.where(type: type).each do |patient|
           puts "Exporting patient: #{patient.first}#{patient.last}"
           patient_ids << patient.medical_record_number
-          content[patient_path].merge! bundle_patient(patient)
+          content[patient_path].merge! bundle_patient(patient, patient_exporter)
         end
       end
       
@@ -92,7 +95,8 @@ module Measures
       }
     end
 
-    def self.bundle_sources(measure, source_path = File.join(".", "db", "measures"))
+    def self.bundle_sources(measure)
+      source_path = Measures::Loader::SOURCE_PATH
       html = File.read(File.expand_path(File.join(source_path, "html", "#{measure.hqmf_id}.html")))
       hqmf1 = File.read(File.expand_path(File.join(source_path, "hqmf", "#{measure.hqmf_id}.xml")))
       hqmf2 = HQMF2::Generator::ModelProcessor.to_hqmf(measure.as_hqmf_model)
@@ -119,12 +123,12 @@ module Measures
       }
     end
 
-    def self.bundle_patient(patient)
+    def self.bundle_patient(patient, exporter=HealthDataStandards::Export::HTML.new)
       filename = TPG::Exporter.patient_filename(patient)
 
-      c32 = HealthDataStandards::Export::C32.export(patient)
-      ccda = HealthDataStandards::Export::CCDA.export(patient)
-      ccr = HealthDataStandards::Export::CCR.export(patient)
+      # c32 = HealthDataStandards::Export::C32.new.export(patient)
+      # ccda = HealthDataStandards::Export::CCDA.new.export(patient)
+      # ccr = HealthDataStandards::Export::CCR.export(patient)
       
       patient_hash = patient.as_json(except: [ '_id', 'measure_id' ], methods: ['_type'])
       patient_hash['measure_ids'] = patient_hash['measure_ids'].uniq.reject {|id| /.*-.*/.match(id).nil? } if patient_hash['measure_ids']
@@ -132,12 +136,9 @@ module Measures
       patient_hash.delete_if(&remove_nils)
       json = JSON.pretty_generate(JSON.parse(patient_hash.to_json))
       
-      html = HealthDataStandards::Export::HTML.export(patient)
+      html = exporter.export(patient)
 
       {
-        File.join("c32", "#{filename}.xml") => c32,
-        File.join("ccda", "#{filename}.xml") => ccda,
-        File.join("ccr", "#{filename}.xml") => ccr,
         File.join("json", "#{filename}.json") => json,
         File.join("html", "#{filename}.html") => html
       }

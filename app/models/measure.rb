@@ -1,7 +1,7 @@
 class Measure
   include Mongoid::Document
 
-  DEFAULT_EFFECTIVE_DATE = Time.gm(2011,1,1).to_i
+  DEFAULT_EFFECTIVE_DATE = Time.gm(2013,1,1).to_i
   TYPES = ["ep", "eh"]
 
   store_in collection: 'draft_measures'
@@ -20,6 +20,7 @@ class Measure
   field :episode_of_care, type: Boolean
   field :continuous_variable, type: Boolean
   field :episode_ids, type: Array # of String ids
+  field :custom_functions, type: Hash # stores a custom function for a population criteria (used only in ADE_TTR for observation)
 
   field :published, type: Boolean
   field :publish_date, type: Date
@@ -33,9 +34,10 @@ class Measure
   field :populations, type: Array
   field :preconditions, type: Hash
 
+  field :value_set_oids, type: Array, default: []
+
   belongs_to :user
   embeds_many :publishings
-  has_many :value_sets
   has_many :records
 
   scope :published, -> { where({'published'=>true}) }
@@ -170,6 +172,11 @@ class Measure
   def name_precondition(id, name)
     self.preconditions ||= {}
     self.preconditions[id] = name
+  end
+
+  def value_sets
+    @value_sets ||= HealthDataStandards::SVS::ValueSet.in(oid: value_set_oids).where({'_type'=>{'$ne'=>'WhiteList'}})
+    @value_sets
   end
 
   private

@@ -1,3 +1,63 @@
+<<<<<<< HEAD
+=======
+GIT
+  remote: http://github.com/pophealth/quality-measure-engine.git
+  revision: 249f05ef3726fe0422f7240be0c2c0cf21b67293
+  branch: develop
+  specs:
+    quality-measure-engine (2.1.0)
+      delayed_job_mongoid (~> 2.0.0)
+      mongoid (~> 3.0.9)
+      moped (~> 1.2.7)
+      nokogiri (~> 1.5.5)
+      rubyXL (~> 1.2.10)
+      rubyzip (~> 0.9.9)
+
+GIT
+  remote: https://github.com/pophealth/hqmf2js.git
+  revision: b01d1cd0d3963a64b4d0f347aca66611c2d148b4
+  branch: develop
+  specs:
+    hqmf2js (1.1.0)
+      coffee-script (~> 2.2.0)
+      nokogiri (~> 1.5.5)
+      sprockets (~> 2.2.2)
+      tilt (~> 1.3.3)
+
+GIT
+  remote: https://github.com/pophealth/patientapi.git
+  revision: 63e9208fab523b2f1562dc74e4f3a05d599b8023
+  branch: develop
+  specs:
+    hquery-patient-api (1.0.0)
+
+GIT
+  remote: https://github.com/pophealth/test-patient-generator.git
+  revision: 017e0935e3bfcf607501511d490c4572c3069353
+  branch: develop
+  specs:
+    test-patient-generator (1.1.2)
+
+GIT
+  remote: https://github.com/projectcypress/health-data-standards.git
+  revision: 5b77b46ed40c8c5956e4b36c974c0f9b457ef96b
+  branch: develop
+  specs:
+    health-data-standards (3.0.0)
+      activesupport (~> 3.2.9)
+      builder (~> 3.0.0)
+      erubis (~> 2.7.0)
+      google-spreadsheet-ruby (= 0.1.8)
+      log4r (~> 1.1.10)
+      mongoid (~> 3.0.14)
+      nokogiri (~> 1.5.5)
+      rest-client (~> 1.6.7)
+      roo (= 1.10.1)
+      rubyzip
+      spreadsheet (= 0.6.8)
+      uuid (~> 2.3.5)
+
+>>>>>>> origin/develop
 GEM
   remote: https://rubygems.org/
   specs:
@@ -48,7 +108,7 @@ GEM
     cover_me (1.2.0)
       configatron
       hashie
-    delayed_job (3.0.4)
+    delayed_job (3.0.5)
       activesupport (~> 3.0)
     delayed_job_mongoid (2.0.0)
       delayed_job (~> 3.0)
@@ -63,7 +123,7 @@ GEM
       multi_json (~> 1.0)
     factory_girl (4.1.0)
       activesupport (>= 3.0.0)
-    faraday (0.8.4)
+    faraday (0.8.5)
       multipart-post (~> 1.1)
     foreman (0.60.2)
       thor (>= 0.13.6)
@@ -115,24 +175,26 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     method_source (0.8.1)
-    mime-types (1.19)
+    mime-types (1.20.1)
     minitest (4.3.2)
-    mongoid (3.0.15)
+    mongoid (3.0.21)
       activemodel (~> 3.1)
-      moped (~> 1.1)
+      moped (~> 1.2)
       origin (~> 1.0)
       tzinfo (~> 0.3.22)
     moped (1.2.9)
     multi_json (1.5.0)
+    multi_xml (0.5.3)
     multipart-post (1.1.5)
     nokogiri (1.5.6)
     nokogiri (1.5.6-java)
     oauth (0.4.7)
-    oauth2 (0.8.0)
+    oauth2 (0.9.0)
       faraday (~> 0.8)
       httpauth (~> 0.1)
       jwt (~> 0.1.4)
       multi_json (~> 1.0)
+      multi_xml (~> 0.5)
       rack (~> 1.2)
     origin (1.0.11)
     orm_adapter (0.4.0)
@@ -151,6 +213,7 @@ GEM
     pry-rescue (0.13)
       interception (>= 0.3)
       pry
+<<<<<<< HEAD
     qrda_generator (1.0.1)
       health-data-standards (~> 2.2.0)
       hqmf-parser (~> 1.1.0)
@@ -166,6 +229,9 @@ GEM
       rubyXL (~> 1.2.10)
       rubyzip (~> 0.9.9)
     rack (1.4.1)
+=======
+    rack (1.4.4)
+>>>>>>> origin/develop
     rack-cache (1.2)
       rack (>= 0.4)
     rack-ssl (1.3.2)
@@ -213,9 +279,6 @@ GEM
       activemodel (~> 3.0)
     slop (3.3.3)
     spoon (0.0.1)
-    spork (0.9.2)
-    spork-minitest (0.0.3)
-      spork
     spreadsheet (0.6.8)
       ruby-ole (>= 1.0)
     sprockets (2.2.2)
@@ -267,10 +330,16 @@ DEPENDENCIES
   devise
   factory_girl
   foreman
+<<<<<<< HEAD
   health-data-standards (~> 2.2.1)
   hqmf-parser (~> 1.1.0)
   hqmf2js (~> 1.1.0)
   hquery-patient-api (~> 1.0.0)
+=======
+  health-data-standards!
+  hqmf2js!
+  hquery-patient-api!
+>>>>>>> origin/develop
   jquery-rails
   jquery-ui-rails
   libv8 (~> 3.11.8.3)
@@ -279,15 +348,23 @@ DEPENDENCIES
   pry
   pry-nav
   pry-rescue
+<<<<<<< HEAD
   qrda_generator (~> 1.0.1)
   quality-measure-engine (~> 2.2.0)
+=======
+  quality-measure-engine!
+>>>>>>> origin/develop
   rails (= 3.2.9)
   rubyXL
   sass-rails (~> 3.2.3)
   simple_form
+<<<<<<< HEAD
   spork
   spork-minitest
   test-patient-generator (~> 1.1.0)
+=======
+  test-patient-generator!
+>>>>>>> origin/develop
   text
   therubyracer (~> 0.11.0beta5)
   therubyrhino
