@@ -1,14 +1,5 @@
 source 'https://rubygems.org'
 
-<<<<<<< HEAD
-gem 'hqmf-parser', '~> 1.1.0'
-gem 'hqmf2js', '~> 1.1.0'
-gem 'hquery-patient-api', '~> 1.0.0'
-gem 'health-data-standards', '~> 2.2.1'
-gem 'test-patient-generator', '~> 1.1.0'
-gem 'quality-measure-engine', '~> 2.2.0'
-gem 'qrda_generator', '~> 1.0.1'
-=======
 gem 'hqmf2js', :git => 'https://github.com/pophealth/hqmf2js.git', :branch => 'develop'
 #gem 'hqmf2js', path: '../hqmf2js'
 gem 'hquery-patient-api', :git => 'https://github.com/pophealth/patientapi.git', :branch => 'develop'
@@ -19,7 +10,6 @@ gem 'test-patient-generator', :git => 'https://github.com/pophealth/test-patient
 #gem 'test-patient-generator', :path => '../test-patient-generator'
 gem 'quality-measure-engine', :git => 'http://github.com/pophealth/quality-measure-engine.git', :branch => 'develop'
 #gem 'quality-measure-engine', :path => '../quality-measure-engine'
->>>>>>> origin/develop
 
 gem 'rails', '3.2.9'
 gem 'jquery-rails'
