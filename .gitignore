@@ -26,3 +26,6 @@ coverage
 
 # Ignore files left from unpacking zip files
 .DS_Store
+
+# Ignore .rvmrc
+/.rvmrc
